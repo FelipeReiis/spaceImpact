@@ -64,6 +64,7 @@ while rodando:
       rodando = False
   tela.blit(plano_fundo,(0,0))
   resto_tela = LARGURA_JANELA % plano_fundo.get_rect().width
+  print(LARGURA_JANELA)
   tela.blit(plano_fundo,(resto_tela - plano_fundo.get_rect().width,0))
   if resto_tela < 500:
     tela.blit(plano_fundo,(resto_tela, 0))  

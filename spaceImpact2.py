@@ -3,7 +3,6 @@ import random
 
 LARGURA_JANELA = 500
 ALTURA_JANELA = 500
-
 class Vida():
     def __init__(self, imagem_vida, posicao):
         self.imagemVida = pg.image.load('imgs/heart.png').convert_alpha()
@@ -41,7 +40,7 @@ class Alien():
         self.areaAlien = self.imgAlien.get_rect()
         self.pos_alien_x = LARGURA_JANELA  # Posição inicial fora da tela
         self.pos_alien_y = random.randint(10, 450)
-        self.velocidade = 1.0  # Ajuste a velocidade conforme necessário
+        self.velocidade = 2.0  # Ajuste a velocidade conforme necessário
         self.tempo_atualizacao = 0
         self.tempo_atualizacao_max = 150
         self.nave = Nave()
@@ -50,7 +49,7 @@ class Alien():
         hit_box_alien = self.areaAlien
         hit_box_alien.y = self.pos_alien_y
         hit_box_alien.x = self.pos_alien_x
-        pg.draw.rect(item, (56, 66, 55), hit_box_alien, 4)
+        pg.draw.rect(item, (27, 192, 192), hit_box_alien, 4)
         item.blit(self.imgAlien, (self.pos_alien_x, self.pos_alien_y))
 
     def movimentarAlien(self):
@@ -60,7 +59,7 @@ class Alien():
         self.tempo_atualizacao += 1
         if self.tempo_atualizacao >= self.tempo_atualizacao_max:
             # Aumentar a velocidade e reiniciar o contador de tempo
-            self.velocidade += 5  # Ajuste conforme necessário
+            self.velocidade += 4  # Ajuste conforme necessário
             self.tempo_atualizacao = 0
 class Bala():
     def __init__(self, x, y):
@@ -124,7 +123,7 @@ class Nave():
         hit_box_nave = self.areaNave
         hit_box_nave.y = self.pos_nave_y
         hit_box_nave.x = self.pos_nave_x
-        pg.draw.rect(item, (56, 66, 55), hit_box_nave, 4)
+        pg.draw.rect(item, (27, 192, 192), hit_box_nave, 4)
         item.blit(self.imgNave, (self.pos_nave_x, self.pos_nave_y))
 
     def criarAliens(self, imagens_aliens):
@@ -183,11 +182,15 @@ class Nave():
     
 def spaceImpact():
     pg.init()
+    LARGURA_JANELA = 500
+    ALTURA_JANELA = 500
     tela = pg.display.set_mode((LARGURA_JANELA, ALTURA_JANELA))
     pg.display.set_caption('Space Impact')
     jogador = Nave()
+
     plano_fundo = pg.image.load('imgs/background_1.png').convert_alpha()
     plano_fundo = pg.transform.scale(plano_fundo, (LARGURA_JANELA, ALTURA_JANELA))
+
     imagens_aliens = ['imgs/alien_1_1.png', 'imgs/alien_1_2.png', 'imgs/alien_2_1.png', 'imgs/alien_2_2.png', 'imgs/alien_3_1.png', 'imgs/alien_3_2.png']
     imagem_vida = 'caminho/para/imagem_de_vida.png'  # Substitua pelo caminho real da sua imagem de vida
 
@@ -206,7 +209,12 @@ def spaceImpact():
             if evento.type == pg.QUIT:
                 pg.quit()
                 quit()
-
+        tela.blit(plano_fundo, (0, 0))
+        resto_tela = (LARGURA_JANELA - 1) % plano_fundo.get_rect().width
+        print(LARGURA_JANELA)
+        tela.blit(plano_fundo,(resto_tela - plano_fundo.get_rect().width,0))
+        if resto_tela < 500:
+            tela.blit(plano_fundo,(resto_tela, 0))  
         # Reiniciar variável de controle a cada iteração do loop
         colisao_ativa = False
 
@@ -220,14 +228,14 @@ def spaceImpact():
         if random.randint(0, 100) < 2:
             jogador.criarAliens(imagens_aliens)
 
-        # Mover e exibir todos os aliens
-        tela.blit(plano_fundo, (0, 0))
+        # Mover e exibir todos os aliens        
         jogador.colocarAliensNaTela(tela)
 
         if len(jogador.disparos) > 0:
             for disparo in jogador.disparos:
                 disparo.trajetoria()
                 disparo.colocarProjetilNaTela(tela)
+        LARGURA_JANELA -=1
 
         jogador.colocarNaveNaTela(tela)
 
