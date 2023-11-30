@@ -189,7 +189,6 @@ def spaceImpact():
     jogador = Nave()
 
     plano_fundo = pg.image.load('imgs/background_1.png').convert_alpha()
-    plano_fundo = pg.transform.scale(plano_fundo, (LARGURA_JANELA, ALTURA_JANELA))
 
     imagens_aliens = ['imgs/alien_1_1.png', 'imgs/alien_1_2.png', 'imgs/alien_2_1.png', 'imgs/alien_2_2.png', 'imgs/alien_3_1.png', 'imgs/alien_3_2.png']
     imagem_vida = 'caminho/para/imagem_de_vida.png'  # Substitua pelo caminho real da sua imagem de vida
